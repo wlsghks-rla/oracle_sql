@@ -83,3 +83,41 @@ select name
     ,substr(tel, 1, instr(tel, ')')-1) as "AREA CODE"
 FROM student
 where deptno1 = 201;
+
+select lpad(ename, 9, '123456789') as "LPAD"
+      ,rpad(ename, 9, substr('123456789', length(ename)+1)) as "RPAD"
+from emp
+where deptno = 10;
+
+select replace(ename, substr(ename, 1,2), '**') as "REPLACE"
+from emp
+where deptno = 10;
+
+-- replace ДыБо1
+select ename, replace(ename, substr(ename,2,2), '--') as "REPLACE"
+from emp
+where deptno = 20;
+
+-- replace ДыБо2
+select name, jumin,replace(jumin,substr(jumin,7,7),'-/-/-/-') as "REPLACE"
+from student
+where deptno1 = 101;
+
+-- replace ДыБо3
+select name, tel, replace(tel, substr(tel,5,3),'***') as "REPLACE"
+from student
+where deptno1 = 102;
+
+-- replace ДыБо4
+select name, tel, replace(tel, substr(tel,9,4),'****') as "REPLACE"
+from student
+where deptno1 = 101;
+
+
+select empno
+     , ename
+     , to_char(hiredate, 'yyyy-mm-dd') as hiredate
+     , to_char((sal*12)+comm, '$99,999') as sal
+     , to_char((sal*12)+comm*1.15, '$99,999') as "15% UP"
+from emp
+where comm >= 0;

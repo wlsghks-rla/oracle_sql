@@ -65,3 +65,50 @@ from employees;
 select first_name, replace(rpad(first_name, 10, '*'), '*', '-') as "Lpad"
 from employees;
 
+
+-- 그룹함수
+select *
+from employees;
+
+select job_id, count(job_id), sum(salary)
+from employees
+group by job_id
+order by 2 desc;
+
+select to_char(hire_date, 'rrrr') as "Year"
+     , count(*) as "인원"
+from employees
+where hire_date >= to_date('2000/01/01', 'rrrr/mm/dd') -- 원래는 문자열인데 묵시적 변환, table에 대한 조건
+group by to_char(hire_date, 'rrrr')
+having count(*) > 1 --그룹화한 것에 대한 조건 부여시 사용.
+order by 2 desc;
+
+-- 년도, 부서 입사인원 파악.
+select to_char(hire_date,'rrrr') as "Year"
+     , department_id as "부서"
+     , count(*)
+from employees
+group by to_char(hire_date,'rrrr'), department_id ;
+
+-- join : 테이블의 항목만큼 곱셈일어남(카티산 프로덕트)
+select e.*, d.department_name 
+from employees e
+join jobs j
+on e.job_id = j.job_id
+join departments d
+on e.department_id = d.department_id
+where first_name = 'Alexander';
+
+select e.*
+from employees e
+    ,jobs j
+    ,departments d
+where e.job_id = j.job_id
+and e.department_id = d.department_id
+and e.first_name = 'Alexander';
+
+select * 
+from jobs;
+
+select *
+from locations;

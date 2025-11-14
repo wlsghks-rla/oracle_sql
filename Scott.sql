@@ -120,4 +120,4 @@ select empno
      , to_char((sal*12)+comm, '$99,999') as sal
      , to_char((sal*12)+comm*1.15, '$99,999') as "15% UP"
 from emp
-where comm >= 0;
+where comm is not null;

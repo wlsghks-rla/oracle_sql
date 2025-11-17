@@ -156,7 +156,7 @@ drop column stars; -- 만든 컬럼 삭제.
 
 select *
 from board
-order by 1;
+order by 1 desc;
 
 -- 입력.
 insert into board(board_id, title, content, author, created_at)

@@ -5,6 +5,9 @@ default tablespace users
 temporary tablespace temp;
 
 grant connect, resource, unlimited tablespace to scott;
+grant create view to scott;
+grant create public synonym to scott;
+grant create synonym to scott;
 
 ALTER SESSION SET "_ORACLE_SCRIPT"=true;
 

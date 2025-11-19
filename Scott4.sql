@@ -287,8 +287,25 @@ from (SELECT name, height, deptno1,
 join department d on a.deptno1 = d.deptno
 where a.rnk = 1;
 
+-- 4.
+select s.grade, s.name, s.height, g.avg_height
+from (select grade, avg(height) avg_height
+                  from student
+                  group by grade) g
+join student s on s.grade = g.grade and s.height > g.avg_height
+order by 1;
 
+-- 5.
+select DENSE_RANK() OVER (ORDER BY pay DESC) "Ranking"
+     , name
+     , pay
+from professor
+order by 1 ;
 
+-- 6.
+select sum(pay), avg(pay)
+from professor
+where profno <= 2000;
 
 
 

@@ -22,3 +22,9 @@ ALTER SESSION SET "_ORACLE_SCRIPT"=true;
  select *
  from all_users
  order by 1;
+ 
+ -- p.448 ½Ç½À
+ select tablespace_name, bytes/1024/1024 MB, file_name
+ from dba_data_files;
+ 
+ alter database datafile 'C:\APP\ADMIN\PRODUCT\21C\ORADATA\XE\USERS01.DBF' autoextend on;

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>글작성</title>
+    <link rel="stylesheet" href="글작성.css" />
+  </head>
+  <body>
+    <div id="container">
+      <form name="write" action="#" method="post">
+        <fieldset>
+          <legend></legend>
+          <ul>
+            <li>
+              <label for="title">제목</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="제목을 작성하세요"
+                required
+              />
+            </li>
+            <li>
+              <label for="author">작성자</label>
+              <input
+                type="text"
+                id="author"
+                name="author"
+                placeholder="작성자를 입력하세요."
+                required
+              />
+            </li>
+            <li>
+              <label for="date">작성일</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                placeholder="날짜를 작성하세요"
+                required
+              />
+            </li>
+            <li>
+              <span>분류</span>
+              <select name="select" id="select">
+                <option value="total">전체</option>
+                <option value="one">입양/보호</option>
+              </select>
+            </li>
+            <li>
+              <span>품종</span>
+              <select name="variety" id="variety">
+                <option value="total">전체</option>
+                <option value="one">러시안블루</option>
+                <option value="one">기타</option>
+              </select>
+            </li>
+          </ul>
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>

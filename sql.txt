@@ -1,0 +1,43 @@
+# SQL 시험대비 노트
+
+distinct - 중복된 값 제외하고 출력
+where 원하는 조건만 출력  = 작은 따옴표, 대소문자 구분해서 사용함
+
+p. 420 421 
+★substr p.75 - 특정 문자만 골라낼 때 사용하는 함수
+  instr - 특정 글자의 위치를 찾아주는 함수
+Lpad / Rpad =
+LTRIM / RTRIM = 특정문자 지우기
+replace  = 특정문자 * 칠하기
+
+p.86
+round - 반올림
+trunc - 버림
+mod - 나머지 값
+ceil - 가장 근접한 큰 정수
+floor - 가장 근접한 작은 정수p.99 형변환 함수
+
+p.99 형변환 함수
+char(n) 고정길이의 문자를 저장
+varchar2(n) 변하는 길이의 문자를 저장
+to_char 함수 (날짜 → 문자로 형변환)
+
+p.110 일반함수
+
+nvl - null값을 다른 값으로 치환해서 출력해줌
+
+p.113 특히 117쪽
+decode(a, b, '1', null) = a가 b일 경우 1을 출력해줘 아니면 null
+
+p.121
+case when, then 지역번호분류, 분기별 생일분류 등
+복수행함수(그룹함수)
+count sum avg max min rollup
+
+p.233 / 254
+
+join / self join
+
+p.306 update 조인 - 급여인상 10%
+
+p. 324 제약조건 5개

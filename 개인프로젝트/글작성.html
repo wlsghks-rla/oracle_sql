@@ -13,7 +13,7 @@
           <legend></legend>
           <ul>
             <li>
-              <label for="title">제목</label>
+              <label for="title">제 목</label>
               <input
                 type="text"
                 id="title"
@@ -43,7 +43,7 @@
               />
             </li>
             <li>
-              <span>분류</span>
+              <label for="categories">분 류</label>
               <select name="select" id="select">
                 <option value="total">전체</option>
                 <option value="one">입양/보호</option>
@@ -53,13 +53,46 @@
               <span>품종</span>
               <select name="variety" id="variety">
                 <option value="total">전체</option>
-                <option value="one">러시안블루</option>
-                <option value="one">기타</option>
+                <option value="rusian">러시안블루</option>
+                <option value="etc">기타</option>
               </select>
+            </li>
+            <li>
+              <span>성별</span>
+              <select name="gender" id="gender">
+                <option value="total">전체</option>
+                <option value="man">남자</option>
+                <option value="woman">여자</option>
+              </select>
+            </li>
+            <li>
+              <span>나이</span>
+              <select name="age" id="age">
+                <option value="total">전체</option>
+                <option value="one">1</option>
+                <option value="two">2</option>
+                <option value="three">3</option>
+                <option value="four">4</option>
+                <option value="five">5</option>
+                <option value="six">6</option>
+                <option value="seven">7</option>
+                <option value="eight">8</option>
+                <option value="nine">9</option>
+                <option value="ten">10</option>
+              </select>
+            </li>
+            <li>
+              <label for="content" class="content">내용</label>
+              <textarea cols="85" rows="30" id="content" name="content">
+              </textarea>
             </li>
           </ul>
         </fieldset>
       </form>
+      <section>
+        <button type="submit">글작성</button>
+        <button type="submit">취소</button>
+      </section>
     </div>
   </body>
 </html>

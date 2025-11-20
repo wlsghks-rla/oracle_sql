@@ -28,3 +28,14 @@ ALTER SESSION SET "_ORACLE_SCRIPT"=true;
  from dba_data_files;
  
  alter database datafile 'C:\APP\ADMIN\PRODUCT\21C\ORADATA\XE\USERS01.DBF' autoextend on;
+ 
+ alter session set "_ORACLE_SCRIPT"=true;
+
+create user wlsghks identified by wlsghks
+default tablespace users
+temporary tablespace temp;
+
+grant connect, resource, unlimited tablespace to wlsghks;
+grant create view to wlsghks;
+grant create public synonym to wlsghks;
+grant create synonym to wlsghks;

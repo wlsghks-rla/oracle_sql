@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>글작성</title>
+    <link rel="stylesheet" href="writing.css" />
+  </head>
+  <body>
+    <div id="container">
+      <form name="write" action="#" method="post">
+        <fieldset>
+          <legend></legend>
+          <ul>
+            <li>
+              <label for="title">제 목</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="제목을 작성하세요"
+                required
+              />
+            </li>
+            <li>
+              <label for="author">작성자</label>
+              <input
+                type="text"
+                id="author"
+                name="author"
+                placeholder="작성자를 입력하세요."
+                required
+              />
+            </li>
+            <li>
+              <label for="date">작성일</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                placeholder="날짜를 작성하세요"
+                required
+              />
+            </li>
+            <li>
+              <label for="categories">분 류</label>
+              <select name="categories" id="categories" required>
+                <option value="전체">전체</option>
+                <option value="입양/보호">입양/보호</option>
+              </select>
+            </li>
+            <li>
+              <span>품종</span>
+              <select name="variety" id="variety" required>
+                <option value="전체">전체</option>
+                <option value="러시안블루">러시안블루</option>
+                <option value="기타">기타</option>
+              </select>
+            </li>
+            <li>
+              <span>성별</span>
+              <select name="gender" id="gender" required>
+                <option value="전체">전체</option>
+                <option value="남자">남자</option>
+                <option value="여자">여자</option>
+              </select>
+            </li>
+            <li>
+              <span>나이</span>
+              <select name="age" id="age" required>
+                <option value="전체">전체</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </li>
+            <li>
+              <label for="content" class="content">내용</label>
+              <textarea cols="85" rows="30" id="content" name="content">
+              </textarea>
+            </li>
+          </ul>
+        </fieldset>
+      </form>
+      <section>
+        <button type="button" onclick="success()">글작성</button>
+        <button type="button" onclick="back()">취소</button>
+      </section>
+    </div>
+  </body>
+  <script>
+    function back() {
+      location.href = "freeboards.html";
+    }
+
+    async function success() {
+      console.log("successing");
+      let response = await fetch("http://localhost:3000/write", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: document.querySelector("#title").value,
+          author: document.querySelector("#author").value,
+          categories: document.querySelector("#categories").value,
+          variety: document.querySelector("#variety").value,
+          gender: document.querySelector("#gender").value,
+          age: document.querySelector("#age").value,
+          content: document.querySelector("#content").value,
+        }),
+      });
+      let result = await response.json();
+      console.log(result);
+      if (result != null) {
+        alert("글 작성완료!");
+        result = true;
+        if (result) {
+          location.href = "freeboards.html";
+        }
+      }
+    }
+  </script>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자유게시판</title>
+    <link rel="stylesheet" href="freeboards.css" />
+  </head>
+  <body>
+    <div id="container">
+      <ul>
+        <li>환영합니다</li>
+        <li><a href="index.html">로그아웃</a></li>
+      </ul>
+      <header>
+        <h3>고양이를 위한 자유게시판</h3>
+        <nav>
+          <select name="select" id="select">
+            <option value="total">전체</option>
+            <option value="one">입양/보호</option>
+          </select>
+          <button>검색</button>
+        </nav>
+      </header>
+      <main>
+        <table class="boardList">
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>날짜</th>
+            </tr>
+          </thead>
+          <tbody id="list">
+            <tr>
+              <td>1</td>
+              <td>1번 제목</td>
+              <td>tlswkdrn</td>
+              <td>2025-11-20</td>
+            </tr>
+          </tbody>
+        </table>
+      </main>
+      <button type="button" onclick="changing()" class="write">글쓰기</button>
+    </div>
+  </body>
+  <script>
+    function changing() {
+      location.href = "writing.html";
+    }
+  </script>
+</html>

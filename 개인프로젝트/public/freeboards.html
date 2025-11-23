@@ -8,11 +8,13 @@
   </head>
   <body>
     <div id="container">
-      <ul>
-        <li>환영합니다</li>
-        <li><a href="index.html">로그아웃</a></li>
-      </ul>
       <header>
+        <ul>
+          <li id="welcome"></li>
+          <li>
+            <a href="index.html">로그아웃</a>
+          </li>
+        </ul>
         <h3>고양이를 위한 자유게시판</h3>
         <nav>
           <select name="select" id="select">
@@ -46,6 +48,35 @@
     </div>
   </body>
   <script>
+    // 사용자 정보 불러오기
+    let uid = localStorage.getItem("uid");
+    console.log(uid);
+    let txt = document.createTextNode(`${uid}님 환영합니다`);
+    console.log(txt);
+
+    document.querySelector("#welcome").appendChild(txt);
+
+    // 게시판 목록
+    async function boardList() {
+      let response = await fetch("http://localhost:3000/paging");
+      let result = await response.json(); // 자바스크립트 객체로 생성.
+      console.log(result);
+      result.forEach(board => {
+        let { IDX, TITLE, AUTHOR, DDAY } = board;
+        console.log(board);
+        let tr = document.createElement("tr");
+        // 화면에 출력하기 위한 항목.
+        board.forEach(prop => {
+          let td = document.createElement("td");
+          console.log(prop);
+          td.innerHTML = prop;
+          tr.appendChild(td);
+        });
+        document.querySelector("#list").appendChild(tr);
+      });
+    }
+    boardList();
+
     function changing() {
       location.href = "writing.html";
     }

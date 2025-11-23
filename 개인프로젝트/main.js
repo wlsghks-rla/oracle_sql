@@ -18,7 +18,7 @@ app.get("/users", (req, res) => {
   res.send("/호출됨.");
 });
 
-// board 목록 조회.
+/*// board 목록 조회.
 app.get("/boards", async (req, res) => {
   let connection;
   try {
@@ -35,30 +35,30 @@ app.get("/boards", async (req, res) => {
       await connection.close();
     }
   }
-});
+});*/
 
-// board 단건 조회.
-app.get("/board/:id", async (req, res) => {
-  console.log(req.params.id); // :id가 파라미터
-  const searchId = req.params.id;
-  let connection;
-  try {
-    connection = await db.getConnection();
-    let result = await connection.execute(
-      `select * from board where board_id = ${searchId}`
-    );
-    console.log(result.rows);
-    //res.send("조회완료");
-    res.json(result.rows); // 웹 화면 보여짐
-  } catch (err) {
-    console.log(err);
-    res.send("예외발생");
-  } finally {
-    if (connection) {
-      await connection.close();
-    }
-  }
-});
+// // board 단건 조회.
+// app.get("/board/:id", async (req, res) => {
+//   console.log(req.params.id); // :id가 파라미터
+//   const searchId = req.params.id;
+//   let connection;
+//   try {
+//     connection = await db.getConnection();
+//     let result = await connection.execute(
+//       `select * from board where board_id = ${searchId}`
+//     );
+//     console.log(result.rows);
+//     //res.send("조회완료");
+//     res.json(result.rows); // 웹 화면 보여짐
+//   } catch (err) {
+//     console.log(err);
+//     res.send("예외발생");
+//   } finally {
+//     if (connection) {
+//       await connection.close();
+//     }
+//   }
+// });
 
 // 글 등록
 /*app.get("/board/:title/:content/:author", async (req, res) => {
@@ -180,7 +180,7 @@ app.post("/write", async (req, res) => {
     connection = await db.getConnection();
     let result = await connection.execute(
       `insert into board (title, author, categories, variety, gender, age, content, idx)
-       values (:title, :author, :categories, :variety, :gender, :age, :content, (select nvl(max(idx),0) +2 from board))`,
+       values (:title, :author, :categories, :variety, :gender, :age, :content, (select max(idx) +1 from board))`,
       [title, author, categories, variety, gender, age, content],
       { autoCommit: true } // 자동커밋
     );
@@ -198,20 +198,14 @@ app.post("/write", async (req, res) => {
   }
 });
 
+// 게시판 목록
 app.get("/paging", async (req, res) => {
-  let { page } = req.params; // 객체 분해.
   let connection;
   try {
     connection = await db.getConnection();
     let result = await connection.execute(
-      `SELECT b.*
-       FROM (SELECT rownum rn, a.*
-             FROM (SELECT *
-                   FROM board
-                   ORDER BY 1) a ) b
-       WHERE b.rn > (:page - 1) * 5
-       AND   b.rn <= (:page * 5)`,
-      [page, page]
+      `SELECT idx, title, author, dday
+      FROM board order by 1`
     );
     console.log(result.rows);
     //res.send("조회완료"); // txt, html....

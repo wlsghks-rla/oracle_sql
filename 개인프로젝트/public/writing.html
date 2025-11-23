@@ -8,6 +8,15 @@
   </head>
   <body>
     <div id="container">
+      <header>
+        <ul>
+          <li id="welcome"></li>
+          <li>
+            <a href="index.html">로그아웃</a>
+          </li>
+        </ul>
+        <h3>고양이를 위한 자유게시판</h3>
+      </header>
       <form name="write" action="#" method="post">
         <fieldset>
           <legend></legend>
@@ -22,25 +31,11 @@
                 required
               />
             </li>
-            <li>
+            <li id="userid">
               <label for="author">작성자</label>
-              <input
-                type="text"
-                id="author"
-                name="author"
-                placeholder="작성자를 입력하세요."
-                required
-              />
             </li>
-            <li>
+            <li id="yearday">
               <label for="date">작성일</label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                placeholder="날짜를 작성하세요"
-                required
-              />
             </li>
             <li>
               <label for="categories">분 류</label>
@@ -96,6 +91,33 @@
     </div>
   </body>
   <script>
+    // 사용자 정보 불러오기
+    let uid = localStorage.getItem("uid");
+    console.log(uid);
+    let txt = document.createTextNode(`${uid}님 환영합니다`);
+    console.log(txt);
+
+    document.querySelector("#welcome").appendChild(txt);
+
+    // 작성자 자동 추가
+    let input = document.createElement("input");
+    input.value = uid;
+    input.setAttribute("readonly", true);
+    document.querySelector("#userid").appendChild(input);
+
+    // 작성일 자동 추가
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let today = `${year}-${month}-${day}`;
+    console.log(today);
+
+    let totoday = document.createElement("input");
+    totoday.value = today;
+    totoday.setAttribute("readonly", true);
+    document.querySelector("#yearday").appendChild(totoday);
+    // 취소 기능
     function back() {
       location.href = "freeboards.html";
     }

@@ -16,17 +16,18 @@ CREATE TABLE board(
 title varchar2(20) CONSTRAINT board_title_nn NOT NULL ,
 author varchar2(10) CONSTRAINT board_author_nn NOT NULL REFERENCES users(id),
 dday date DEFAULT sysdate CONSTRAINT board_dday_nn NOT null,
-categories varchar2(15) CONSTRAINT board_thing_nn NOT NULL,
-variety varchar2(15) CONSTRAINT board_variety_nn NOT NULL,
-gender varchar2(3) CONSTRAINT board_gender_nn NOT NULL,
-age varchar2(3) CONSTRAINT board_age_nn NOT NULL,
+categories varchar2(20) CONSTRAINT board_thing_nn NOT NULL,
+variety varchar2(20) CONSTRAINT board_variety_nn NOT NULL,
+gender varchar2(20) CONSTRAINT board_gender_nn NOT NULL,
+age varchar2(20) CONSTRAINT board_age_nn NOT NULL,
 content varchar2(100) CONSTRAINT board_content_nn NOT NULL,
-idx varchar2(3) CONSTRAINT board_idx_pk PRIMARY key
+idx number(10) DEFAULT 1 CONSTRAINT board_idx_pk PRIMARY key
 );
 
-SELECT * FROM board;
+SELECT * FROM board ORDER BY idx;
 ALTER TABLE board
-modify( variety varchar(20));
+modify( age varchar(20));
+truncate TABLE board;
 
 
 -- sample data(users)
@@ -46,12 +47,55 @@ WHERE id = 'rladbfl';
 
 -- sample data(board)
 INSERT INTO board (title, author, categories, variety, gender, age, content,idx)
-values('1번 제목입니다', 'tlswkdrn', '행동/성격', '러시안블루', '남', 3, '1번 내용입니다', 1);
+values('4번 제목입니다', 'tlswkdrn', '행동 성격', '러시안블루', '남', 3, '1번 내용입니다',(select max(idx) +1 from board));
 INSERT INTO board (title, author, categories, variety, gender, age, content,idx)
-values('2번 제목입니다', 'rlacjftn', '행동/성격', '먼치킨', '여', 2, '2번 내용입니다', 2);
+values('2번 제목입니다', 'rlacjftn', '사료 후기', '먼치킨', '여', 2, '2번 내용입니다', (select max(idx) +1 from board));
 INSERT INTO board (title, author, categories, variety, gender, age, content,idx)
-values('3번 제목입니다', 'rladbfl', '행동/성격', '코리안숏헤어', '여', 1, '3번 내용입니다', 3);
+values('3번 제목입니다', 'rladbfl', '입양 보호', '코리안숏헤어', '여', 1, '3번 내용입니다', (select max(idx) +1 from board));
 INSERT INTO board (title, author, categories, variety, gender, age, content,idx)
-values('4번 제목입니다', 'ghdrlfehd', '행동/성격', '아비시니안', '남', 2, '4번 내용입니다', 4);
+values('4번 제목입니다', 'ghdrlfehd', '일상 공유', '아비시니안', '남', 2, '4번 내용입니다', (select max(idx) +1 from board));
+INSERT INTO board (title, author, categories, variety, gender, age, content,idx)
+values('4번 제목입니다', 'ghdrlfehd', '용품 후기', '아비시니안', '남', 2, '4번 내용입니다', (select max(idx) +1 from board));
+
+SELECT *
+FROM board;
+
+--id 중복체크
+SELECT count(id)
+FROM users
+where id = 'tlswkdrn';
+
+-- 로그인
+SELECT id,pw
+FROM users
+where id = 'tlswkdrn'and pw='tlswkdrn';
+
+-- 선택 게시판 목록
+SELECT idx, title, author, dday
+FROM board
+WHERE categories = '일상공유';
+
+SELECT b.*
+FROM (SELECT rownum rn, a.title, a.author, a.dday, a.categories
+      FROM (SELECT idx, title, author, dday, categories
+            FROM board
+            WHERE categories = :category OR '전체' = :category 
+            ORDER BY IDX) a)b
+WHERE b.rn > 0 AND b.rn <= 5 ;
 
 
+-- 페이징
+SELECT b.*
+       FROM (SELECT rownum rn, a.title, a.author, a.dday, a.categories
+             FROM (SELECT idx, title, author, dday, categories
+                   FROM board
+                   WHERE categories = :category OR '전체' = :category
+                   ORDER BY idx) a ) b
+       WHERE b.rn > (:page - 1) * 5
+       AND   b.rn <= (:page * 5);
+
+SELECT rownum rn, a.title, a.author, a.dday, a.categories
+FROM (SELECT idx, title, author, dday, categories
+      FROM board
+      WHERE categories = :category OR '전체' = :category 
+      ORDER BY IDX)a;

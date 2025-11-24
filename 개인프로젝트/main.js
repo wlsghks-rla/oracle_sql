@@ -206,12 +206,39 @@ app.get("/paging/:values", async (req, res) => {
   try {
     connection = await db.getConnection();
     let result = await connection.execute(
-      `SELECT rownum rn, a.title, a.author, a.dday, a.categories
+      `SELECT rownum rn, a.title, a.author, a.dday, a.categories, a.idx
        FROM (SELECT idx, title, author, dday, categories
        FROM board
        WHERE categories = :category OR '전체' = :category 
        ORDER BY IDX)a`,
       [values, values]
+    );
+    console.log(result.rows);
+    //res.send("조회완료"); // txt, html....
+    res.json(result.rows); // json 문자열로 응답.
+  } catch (err) {
+    console.log(err);
+    res.send("예외발생");
+  } finally {
+    // 정상실행/ 예외발생
+    if (connection) {
+      await connection.close();
+    }
+  }
+});
+
+// 게시판 상세페이지
+app.get("/boardpage/:data", async (req, res) => {
+  let { data } = req.params;
+  console.log(data);
+  let connection;
+  try {
+    connection = await db.getConnection();
+    let result = await connection.execute(
+      `SELECT title, author, dday, categories, variety, gender, age, content
+       FROM board
+      WHERE idx = :idx`,
+      [data]
     );
     console.log(result.rows);
     //res.send("조회완료"); // txt, html....

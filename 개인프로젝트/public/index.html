@@ -1,63 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
   <style>
+    /* login.css - 고양이 자유게시판 테마 통일 버전 */
+
     body {
-      background-color: #eee;
+      background-color: #fff8f0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
+
+    /* 로그인 박스 */
     #container {
-      margin: 50px auto;
-      width: 300px;
-      height: 600px;
-      background-color: #fff;
-      border-radius: 30px;
-      padding: 70px 70px 10px 70px;
-    }
-    header {
+      width: 360px;
+      padding: 40px 30px;
+      background-color: #fffaf0;
+      border-radius: 20px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
-    form {
-      padding-top: 30px;
+
+    /* 헤더 */
+    header h2 {
+      margin: 0 0 25px 0;
+      color: #ff4500;
+      font-size: 28px;
+      font-weight: bold;
     }
-    fieldset {
+
+    /* form fieldset */
+    form fieldset {
       border: none;
-      padding: 0px;
+      padding: 0;
+      margin: 0;
     }
-    fieldset:nth-of-type(2) label {
-      margin-top: 20px;
-    }
+
+    /* 라벨 */
     label {
       display: block;
-      font-weight: bolder;
+      text-align: left;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
     }
+
+    /* 입력창 */
     input {
-      width: 250px;
-      padding: 20px;
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
       border-radius: 10px;
-      border: none;
-      background-color: #eee;
+      border: 1px solid #ffc107;
+      background-color: #fff8e7;
+      font-size: 14px;
+      box-sizing: border-box;
     }
+
+    input:focus {
+      outline: none;
+      border-color: #ff6600;
+      box-shadow: 0 0 5px rgba(255, 102, 0, 0.4);
+    }
+
+    /* 회원가입 링크 */
     p {
-      margin: 0px;
+      margin: -10px 0 20px 0;
       text-align: right;
     }
-    a {
-      text-decoration-line: none;
-      color: #000;
-      font-weight: bolder;
+
+    p a {
+      text-decoration: none;
+      color: #ff6600;
+      font-weight: bold;
+      transition: color 0.3s;
     }
+
+    p a:hover {
+      color: #ff4500;
+    }
+
+    /* 로그인 버튼 */
     button {
-      display: block;
-      margin: 0 auto;
-      margin-top: 90px;
-      width: 290px;
-      border: none;
-      font-weight: bolder;
-      border-radius: 10px;
-      padding: 20px;
-    }
-    button:hover {
-      background-color: darkblue;
+      width: 100%;
+      padding: 12px 0;
+      background-color: #ff6600;
       color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff4500;
     }
   </style>
   <head>

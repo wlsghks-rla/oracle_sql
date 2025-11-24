@@ -1,130 +1,152 @@
-          <!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <meta charset="UTF-8" />
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1.0"
-              />
-              <title>상세페이지</title>
-              <link rel="stylesheet" href="boardpage.css" />
-            </head>
-            <body>
-              <div id="container">
-                <form name="write" action="#" method="post">
-                  <fieldset>
-                    <legend></legend>
-                    <ul>
-                      <li>
-                        <label for="title">제 목</label>
-                        <input
-                          type="text"
-                          id="title"
-                          name="title"
-                          placeholder="제목을 작성하세요"
-                          required
-                          readonly
-                        />
-                      </li>
-                      <li>
-                        <label for="author">작성자</label>
-                        <input
-                          type="text"
-                          id="author"
-                          name="author"
-                          placeholder="작성자를 입력하세요."
-                          required
-                          readonly
-                        />
-                      </li>
-                      <li>
-                        <label for="date">작성일</label>
-                        <input
-                          type="date"
-                          id="date"
-                          name="date"
-                          placeholder="날짜를 작성하세요"
-                          required
-                          readonly
-                        />
-                      </li>
-                      <li>
-                        <label for="categories">분 류</label>
-                        <select name="select" id="select" disabled>
-                          <option disabled="disabled" value="total">
-                            전체
-                          </option>
-                          <option disabled="disabled" value="one">
-                            입양/보호
-                          </option>
-                        </select>
-                      </li>
-                      <li>
-                        <span>품종</span>
-                        <select name="variety" id="variety" disabled>
-                          <option value="total">
-                            전체
-                          </option>
-                          <option value="rusian">
-                            러시안블루
-                          </option>
-                          <option value="etc">기타</option>
-                        </select>
-                      </li>
-                      <li>
-                        <span>성별</span>
-                        <select name="gender" id="gender" readnoly disabled>
-                          <option value="total">
-                            전체
-                          </option>
-                          <option value="man">남자</option>
-                          <option value="woman">
-                            여자
-                          </option>
-                        </select>
-                      </li>
-                      <li>
-                        <span>나이</span>
-                        <select name="age" id="age" disabled>
-                          <option value="total">
-                            전체
-                          </option>
-                          <option value="one">1</option>
-                          <option value="two">2</option>
-                          <option value="three">3</option>
-                          <option value="four">4</option>
-                          <option value="five">5</option>
-                          <option value="six">6</option>
-                          <option value="seven">7</option>
-                          <option value="eight">8</option>
-                          <option value="nine">9</option>
-                          <option value="ten">10</option>
-                        </select>
-                      </li>
-                      <li>
-                        <label for="content" class="content">내용</label>
-                        <textarea
-                          cols="85"
-                          rows="30"
-                          id="content"
-                          name="content"
-                          readonly
-                        >
-                        </textarea>
-                      </li>
-                    </ul>
-                  </fieldset>
-                </form>
-                <section>
-                  <button type="submit">글작성</button>
-                  <button type="submit">취소</button>
-                </section>
-              </div>
-            </body>
-          </html>
-        </ul>
-      </nav>
-    </header>
-    <main></main>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상세페이지</title>
+    <link rel="stylesheet" href="boardpage.css" />
+  </head>
+  <body>
+    <div id="container">
+      <form name="write" action="#" method="post">
+        <fieldset>
+          <legend></legend>
+          <ul>
+            <li id="title">
+              <label for="title">제 목</label>
+            </li>
+            <li id="author">
+              <label for="author">작성자</label>
+            </li>
+            <li id="date">
+              <label for="date">작성일</label>
+            </li>
+            <li id="categories">
+              <label for="categories">분 류</label>
+            </li>
+            <li id="variety">
+              <span>품종</span>
+            </li>
+            <li id="gender">
+              <span>성별</span>
+              </select>
+            </li>
+            <li id="age">
+              <span>나이</span>
+            </li>
+            <li id="content">
+              <label for="content" class="content">내용</label>
+            </li>
+          </ul>
+        </fieldset>
+      </form>
+      <section>
+        <button type="button"><a href="freeboards.html">돌아가기</a></button>
+      </section>
+    </div>
   </body>
+  <script>
+    let boardPart = JSON.parse(localStorage.getItem("boardPart"));
+    console.log(boardPart[0]);
+
+    // 제목
+    function first () {
+      let input = document.createElement("input")
+      input.value =  boardPart[0][0];
+      console.log(boardPart[0][0])
+      input.setAttribute("readonly", true);
+      document.querySelector("#title").appendChild(input);
+      
+    }
+    first();
+
+    // 작성자
+    function second () {
+      let input = document.createElement("input")
+      input.value =  boardPart[0][1];
+      console.log(boardPart[0][1])
+      input.setAttribute("readonly", true);
+      document.querySelector("#author").appendChild(input);
+      
+    }
+    second();
+    
+    // 작성일
+        function thrid () {
+          let ddate = new Date(boardPart[0][2]);
+          ddate =
+            ddate.getFullYear() +
+            "-" +
+            (ddate.getMonth() + 1) +
+            "-" +
+            ddate.getDate();
+          boardPart[0][2] = ddate;
+      let input = document.createElement("input")
+      input.value =  boardPart[0][2];
+      console.log(boardPart[0][2])
+      input.setAttribute("readonly", true);
+      document.querySelector("#date").appendChild(input);
+      
+    }
+    thrid();
+
+    // 분류
+    function four () {
+      let input = document.createElement("input")
+      input.value =  boardPart[0][3];
+      console.log(boardPart[0][3])
+      input.setAttribute("readonly", true);
+      document.querySelector("#categories").appendChild(input);
+      
+    }
+    four();
+
+        // 품종
+    function five () {
+      let input = document.createElement("input")
+      input.value =  boardPart[0][4];
+      console.log(boardPart[0][4])
+      input.setAttribute("readonly", true);
+      document.querySelector("#variety").appendChild(input);
+      
+    }
+    five();
+
+    // 성별
+    function six () {
+      let input = document.createElement("input")
+      input.value =  boardPart[0][5];
+      console.log(boardPart[0][5])
+      input.setAttribute("readonly", true);
+      document.querySelector("#gender").appendChild(input);
+      
+    }
+    six();
+
+     // 나이
+    function seven () {
+      let input = document.createElement("input")
+      input.value =  boardPart[0][6];
+      console.log(boardPart[0][6])
+      input.setAttribute("readonly", true);
+      document.querySelector("#age").appendChild(input);
+      
+    }
+    seven();
+
+     // 내용
+    function eight () {
+      let textarea = document.createElement("textarea")
+      textarea.value =  boardPart[0][7];
+      console.log(boardPart[0][7])
+      textarea.setAttribute("readonly", true);
+      textarea.setAttribute("cols", "85");
+textarea.setAttribute("rows", "30");
+      document.querySelector("#content").appendChild(textarea);
+      
+    }
+    eight();
+
+
+  </script>
 </html>

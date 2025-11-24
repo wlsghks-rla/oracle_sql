@@ -29,13 +29,14 @@
         </nav>
       </header>
       <main>
-        <table class="boardList">
+        <table id="boardList">
           <thead>
             <tr>
               <th>번호</th>
               <th>제목</th>
               <th>작성자</th>
               <th>날짜</th>
+              <th>분류</th>
             </tr>
           </thead>
           <tbody id="list"></tbody>
@@ -59,21 +60,18 @@
       let selectValue = document.querySelector("#categories");
       let values = selectValue.options[selectValue.selectedIndex].text;
       document.querySelector("#list").innerHTML = "";
-      console.log(values);
       async function listing() {
         let response = await fetch(`http://localhost:3000/paging/${values}`);
         let result = await response.json(); // 자바스크립트 객체로 생성.
         // 페이지표시
-        console.log(result.length);
         showPagingList(result.length);
 
-        console.log(result);
         result = result.slice(0, 10);
-        result.forEach((board) => {
-          let { rn, title, author, dday, categories } = board;
-          console.log(board[3]);
+        result.forEach(board => {
+          let { rn, title, author, dday, categories, idx } = board;
           let tr = document.createElement("tr");
-          tr.setAttribute("onclick", "moving()");
+
+          tr.dataset.id = board[5];
           // 화면에 출력하기 위한 항목.
           let ddate = new Date(board[3]);
           ddate =
@@ -82,19 +80,32 @@
             (ddate.getMonth() + 1) +
             "-" +
             ddate.getDate();
-          // console.log(ddate);
           board[3] = ddate;
           console.log(board);
-          board.forEach((prop) => {
+          let realBoard = [board[0], board[1], board[2], board[3], board[4]];
+          realBoard.forEach(prop => {
             let td = document.createElement("td");
-            // console.log(prop);
             td.innerHTML = prop;
             tr.appendChild(td);
           });
+          let data = tr.dataset.id;
+          tr.addEventListener("click", e => {
+            console.log(data);
+            datasets(data);
+            // location.href = "boardpage.html";
+          });
+
           document.querySelector("#list").appendChild(tr);
         });
       }
       listing();
+    }
+
+    async function datasets(data) {
+      let response = await fetch(`http://localhost:3000/boardpage/${data}`);
+      let result = await response.json(); // 자바스크립트 객체로 생성.
+      console.log(result[0]);
+      localStorage.setItem("boardPart", JSON.stringify(result[0]));
     }
 
     // pagination
@@ -155,7 +166,7 @@
     // 페이징
     document
       .querySelector(".pagination") //
-      .addEventListener("click", (e) => {
+      .addEventListener("click", e => {
         let values =
           document.querySelector("#categories").options[
             document.querySelector("#categories").selectedIndex
@@ -171,10 +182,11 @@
             );
             let result = await response.json(); // 자바스크립트 객체로 생성.
             // console.log(result);
-            result.forEach((board) => {
+            result.forEach(board => {
               let { rn, title, author, dday, categories } = board;
               // console.log(board[3]);
               let tr = document.createElement("tr");
+              tr.dataset.id = board[5];
               // 화면에 출력하기 위한 항목.
               let ddate = new Date(board[3]);
               ddate =
@@ -186,12 +198,20 @@
               // console.log(ddate);
               board[3] = ddate;
               console.log(board);
-              board.forEach((prop) => {
+              board.forEach(prop => {
                 let td = document.createElement("td");
                 // console.log(prop);
                 td.innerHTML = prop;
                 tr.appendChild(td);
               });
+              let data = tr.dataset.id;
+              console.log(data);
+              tr.addEventListener("click", e => {
+                console.log(data);
+                datasets(data);
+                // location.href = "boardpage.html";
+              });
+
               document.querySelector("#list").appendChild(tr);
             });
           }
@@ -199,16 +219,7 @@
         }
       });
 
-    // 게시판 상세페이지
-    function moving(e) {
-      console.log(e);
-      // location.href = "boardpage.html";
-      // async function listing() {
-      //   let response = await fetch(`http://localhost:3000/boardpage/`);
-      //   let result = await response.json();
-      // }
-    }
-
+    // 글작성 버튼 효과.
     function changing() {
       location.href = "writing.html";
     }

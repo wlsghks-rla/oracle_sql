@@ -199,13 +199,51 @@ app.post("/write", async (req, res) => {
 });
 
 // 게시판 목록
-app.get("/paging", async (req, res) => {
+app.get("/paging/:values", async (req, res) => {
+  let { values } = req.params;
+  console.log(values);
   let connection;
   try {
     connection = await db.getConnection();
     let result = await connection.execute(
-      `SELECT idx, title, author, dday
-      FROM board order by 1`
+      `SELECT rownum rn, a.title, a.author, a.dday, a.categories
+       FROM (SELECT idx, title, author, dday, categories
+       FROM board
+       WHERE categories = :category OR '전체' = :category 
+       ORDER BY IDX)a`,
+      [values, values]
+    );
+    console.log(result.rows);
+    //res.send("조회완료"); // txt, html....
+    res.json(result.rows); // json 문자열로 응답.
+  } catch (err) {
+    console.log(err);
+    res.send("예외발생");
+  } finally {
+    // 정상실행/ 예외발생
+    if (connection) {
+      await connection.close();
+    }
+  }
+});
+
+// 페이징
+app.get("/paging/:values/:page", async (req, res) => {
+  let { values, page } = req.params;
+  console.log(page);
+  let connection;
+  try {
+    connection = await db.getConnection();
+    let result = await connection.execute(
+      `SELECT b.*
+       FROM (SELECT rownum rn, a.title, a.author, a.dday, a.categories
+             FROM (SELECT idx, title, author, dday, categories
+                   FROM board
+                   WHERE categories = :category OR '전체' = :category
+                   ORDER BY idx) a ) b
+       WHERE b.rn > (:page - 1) * 10
+       AND   b.rn <= (:page * 10)`,
+      [values, values, page, page]
     );
     console.log(result.rows);
     //res.send("조회완료"); // txt, html....

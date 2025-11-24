@@ -45,3 +45,48 @@ th:nth-child(2) {
 .write {
   float: right;
 }
+/* 페이지네이션 컨테이너 */
+.pagination {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+/* 각 페이지 링크 */
+.pagination a {
+  color: #333;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 1px;
+}
+
+/* hover 시 */
+.pagination a:hover:not(.active):not(.disabled) {
+  background-color: #f1f1f1;
+}
+
+/* 활성화된 페이지 */
+.pagination a.active {
+  background-color: #4caf50;
+  color: white;
+  border: 1px solid #4caf50;
+}
+
+/* 비활성화된 버튼 */
+.pagination a.disabled {
+  color: #ccc;
+  border: 1px solid #eee;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* clearfix */
+.pagination::after {
+  content: "";
+  display: table;
+  clear: both;
+}

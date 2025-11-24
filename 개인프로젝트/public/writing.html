@@ -40,40 +40,50 @@
             <li>
               <label for="categories">분 류</label>
               <select name="categories" id="categories" required>
-                <option value="전체">전체</option>
-                <option value="입양/보호">입양/보호</option>
+                <option value="total">전체</option>
+                <option value="food">사료후기</option>
+                <option value="food">행동/성격</option>
+                <option value="protect">입양/보호</option>
+                <option value="ilsang">일상공유</option>
+                <option value="hoogi">용품후기</option>
               </select>
             </li>
             <li>
               <span>품종</span>
               <select name="variety" id="variety" required>
-                <option value="전체">전체</option>
-                <option value="러시안블루">러시안블루</option>
-                <option value="기타">기타</option>
+                <option value="total">전체</option>
+                <option value="russian">러시안블루</option>
+                <option value="etc">기타</option>
               </select>
             </li>
             <li>
               <span>성별</span>
               <select name="gender" id="gender" required>
-                <option value="전체">전체</option>
-                <option value="남자">남자</option>
-                <option value="여자">여자</option>
+                <option value="total">전체</option>
+                <option value="man">남자</option>
+                <option value="girl">여자</option>
               </select>
             </li>
             <li>
               <span>나이</span>
               <select name="age" id="age" required>
-                <option value="전체">전체</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+                <option value="total">전체</option>
+                <option value="one">1</option>
+                <option value="two">2</option>
+                <option value="three">3</option>
+                <option value="four">4</option>
+                <option value="five">5</option>
+                <option value="six">6</option>
+                <option value="seven">7</option>
+                <option value="eight">8</option>
+                <option value="nine">9</option>
+                <option value="ten">10</option>
+                <option value="eleven">11</option>
+                <option value="tweleve">12</option>
+                <option value="thirteen">13</option>
+                <option value="fourteen">14</option>
+                <option value="fifteen">15</option>
+                <option value="etc">기타</option>
               </select>
             </li>
             <li>
@@ -122,6 +132,11 @@
       location.href = "freeboards.html";
     }
 
+    // 글작성
+    let categories = document.querySelector("#categories");
+    let variety = document.querySelector("#variety");
+    let gender = document.querySelector("#gender");
+    let age = document.querySelector("#age");
     async function success() {
       console.log("successing");
       let response = await fetch("http://localhost:3000/write", {
@@ -129,11 +144,18 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: document.querySelector("#title").value,
-          author: document.querySelector("#author").value,
-          categories: document.querySelector("#categories").value,
-          variety: document.querySelector("#variety").value,
-          gender: document.querySelector("#gender").value,
-          age: document.querySelector("#age").value,
+          author: uid,
+          categories:
+            document.querySelector("#categories").options[
+              categories.selectedIndex
+            ].text,
+          variety:
+            document.querySelector("#variety").options[variety.selectedIndex]
+              .text,
+          gender:
+            document.querySelector("#gender").options[gender.selectedIndex]
+              .text,
+          age: document.querySelector("#age").options[age.selectedIndex].text,
           content: document.querySelector("#content").value,
         }),
       });

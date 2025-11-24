@@ -17,11 +17,15 @@
         </ul>
         <h3>고양이를 위한 자유게시판</h3>
         <nav>
-          <select name="select" id="select">
+          <select name="categories" id="categories">
             <option value="total">전체</option>
-            <option value="one">입양/보호</option>
+            <option value="food">사료 후기</option>
+            <option value="food">행동 성격</option>
+            <option value="protect">입양 보호</option>
+            <option value="ilsang">일상 공유</option>
+            <option value="hoogi">용품 후기</option>
           </select>
-          <button>검색</button>
+          <button onclick="searchBoard()">검색</button>
         </nav>
       </header>
       <main>
@@ -34,15 +38,9 @@
               <th>날짜</th>
             </tr>
           </thead>
-          <tbody id="list">
-            <tr>
-              <td>1</td>
-              <td>1번 제목</td>
-              <td>tlswkdrn</td>
-              <td>2025-11-20</td>
-            </tr>
-          </tbody>
+          <tbody id="list"></tbody>
         </table>
+        <section class="pagination"></section>
       </main>
       <button type="button" onclick="changing()" class="write">글쓰기</button>
     </div>
@@ -52,30 +50,164 @@
     let uid = localStorage.getItem("uid");
     console.log(uid);
     let txt = document.createTextNode(`${uid}님 환영합니다`);
-    console.log(txt);
 
     document.querySelector("#welcome").appendChild(txt);
 
     // 게시판 목록
-    async function boardList() {
-      let response = await fetch("http://localhost:3000/paging");
-      let result = await response.json(); // 자바스크립트 객체로 생성.
-      console.log(result);
-      result.forEach(board => {
-        let { IDX, TITLE, AUTHOR, DDAY } = board;
-        console.log(board);
-        let tr = document.createElement("tr");
-        // 화면에 출력하기 위한 항목.
-        board.forEach(prop => {
-          let td = document.createElement("td");
-          console.log(prop);
-          td.innerHTML = prop;
-          tr.appendChild(td);
+    let page = 1;
+    function searchBoard() {
+      let selectValue = document.querySelector("#categories");
+      let values = selectValue.options[selectValue.selectedIndex].text;
+      document.querySelector("#list").innerHTML = "";
+      console.log(values);
+      async function listing() {
+        let response = await fetch(`http://localhost:3000/paging/${values}`);
+        let result = await response.json(); // 자바스크립트 객체로 생성.
+        // 페이지표시
+        console.log(result.length);
+        showPagingList(result.length);
+
+        console.log(result);
+        result = result.slice(0, 10);
+        result.forEach((board) => {
+          let { rn, title, author, dday, categories } = board;
+          console.log(board[3]);
+          let tr = document.createElement("tr");
+          tr.setAttribute("onclick", "moving()");
+          // 화면에 출력하기 위한 항목.
+          let ddate = new Date(board[3]);
+          ddate =
+            ddate.getFullYear() +
+            "-" +
+            (ddate.getMonth() + 1) +
+            "-" +
+            ddate.getDate();
+          // console.log(ddate);
+          board[3] = ddate;
+          console.log(board);
+          board.forEach((prop) => {
+            let td = document.createElement("td");
+            // console.log(prop);
+            td.innerHTML = prop;
+            tr.appendChild(td);
+          });
+          document.querySelector("#list").appendChild(tr);
         });
-        document.querySelector("#list").appendChild(tr);
-      });
+      }
+      listing();
     }
-    boardList();
+
+    // pagination
+    function showPagingList(totalCount = []) {
+      let pagination = document.querySelector(".pagination");
+
+      pagination.innerHTML = "";
+
+      let startPage = 0,
+        endPage = 0;
+      let prev = false,
+        next = false;
+      endPage = Math.ceil(page / 10) * 10;
+      startPage = endPage - 9;
+      let realEnd = Math.ceil(totalCount / 10);
+      if (endPage > realEnd) {
+        endPage = realEnd;
+      }
+      if (startPage != 1) {
+        prev = true;
+      }
+      if (endPage < realEnd) {
+        next = true;
+      }
+      let tag = document.createElement("a");
+      tag.innerHTML = "&laquo";
+      tag.href = "#";
+      tag.className = "disabled";
+      tag.setAttribute("data-page", startPage - 1);
+      pagination.appendChild(tag);
+      if (prev) {
+        tag.className = "";
+      }
+      for (let p = startPage; p <= endPage; p++) {
+        let tag = document.createElement("a");
+        tag.innerText = p;
+        tag.href = "#";
+        tag.setAttribute("data-page", p);
+
+        if (p == page) {
+          tag.className = "active";
+        }
+        pagination.appendChild(tag);
+      }
+      tag = document.createElement("a");
+      tag.innerHTML = "&raquo";
+      tag.href = "#";
+      tag.className = "disabled";
+      // 페이지 값을 담아놓는 속성. 1107 11페이지 안나오는 거 방지 >>는 값이 없음
+      tag.setAttribute("data-page", endPage + 1);
+      pagination.appendChild(tag);
+
+      if (next) {
+        tag.className = "";
+      }
+    }
+
+    // 페이징
+    document
+      .querySelector(".pagination") //
+      .addEventListener("click", (e) => {
+        let values =
+          document.querySelector("#categories").options[
+            document.querySelector("#categories").selectedIndex
+          ].text;
+        console.log(values);
+        let page = e.target.innerHTML;
+        console.log(page);
+        document.querySelector("#list").innerHTML = "";
+        if (e.target.nodeName == "A") {
+          async function boardList() {
+            let response = await fetch(
+              `http://localhost:3000/paging/${values}/${page}`
+            );
+            let result = await response.json(); // 자바스크립트 객체로 생성.
+            // console.log(result);
+            result.forEach((board) => {
+              let { rn, title, author, dday, categories } = board;
+              // console.log(board[3]);
+              let tr = document.createElement("tr");
+              // 화면에 출력하기 위한 항목.
+              let ddate = new Date(board[3]);
+              ddate =
+                ddate.getFullYear() +
+                "-" +
+                (ddate.getMonth() + 1) +
+                "-" +
+                ddate.getDate();
+              // console.log(ddate);
+              board[3] = ddate;
+              console.log(board);
+              board.forEach((prop) => {
+                let td = document.createElement("td");
+                // console.log(prop);
+                td.innerHTML = prop;
+                tr.appendChild(td);
+              });
+              document.querySelector("#list").appendChild(tr);
+            });
+          }
+          boardList();
+        }
+      });
+
+    // 게시판 상세페이지
+    function moving(e) {
+      console.log(e);
+      // location.href = "boardpage.html";
+      // async function listing() {
+      //   let response = await fetch(`http://localhost:3000/boardpage/`);
+      //   let result = await response.json();
+      // }
+    }
 
     function changing() {
       location.href = "writing.html";

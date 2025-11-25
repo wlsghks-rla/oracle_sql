@@ -136,7 +136,7 @@ tbody td {
   color: #fff;
 }
 
-.pagination a:hover {
+.pagination a:hover:not(.active):not(.disabled) {
   background-color: #ffb347;
   color: #fff;
 }
@@ -144,6 +144,7 @@ tbody td {
 .pagination a.disabled {
   pointer-events: none;
   opacity: 0.5;
+  cursor: default;
 }
 
 /* 글쓰기 버튼 */

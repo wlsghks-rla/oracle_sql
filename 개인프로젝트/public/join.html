@@ -181,7 +181,7 @@
     <script>
       // 중복확인
       async function checking() {
-        let response = await fetch("http://localhost:3000/boards", {
+        let response = await fetch("/boards", {
           method: "post",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -201,20 +201,27 @@
 
       // 회원가입
       async function addBoard() {
-        let response = await fetch("http://localhost:3000/boardd", {
-          method: "post",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: document.querySelector("#user_id").value,
-            pw: document.querySelector("#user_pw").value,
-            name: document.querySelector("#user_name").value,
-            address: document.querySelector("#user_address").value,
-          }),
-        });
-        let result = await response.json();
-        if (result != null) {
-          alert("환영합니다");
-          location.href = "index.html";
+        if (
+          document.querySelector("#user_pw").value ==
+          document.querySelector("#user_pwc").value
+        ) {
+          let response = await fetch("/boardd", {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              id: document.querySelector("#user_id").value,
+              pw: document.querySelector("#user_pw").value,
+              name: document.querySelector("#user_name").value,
+              address: document.querySelector("#user_address").value,
+            }),
+          });
+          let result = await response.json();
+          if (result != null) {
+            alert("환영합니다");
+            location.href = "index.html";
+          }
+        } else {
+          alert("비밀번호가 일치하지않습니다");
         }
       }
     </script>

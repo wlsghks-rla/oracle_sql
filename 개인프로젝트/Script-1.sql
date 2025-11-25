@@ -95,7 +95,13 @@ SELECT b.*
        AND   b.rn <= (:page * 5);
 
 SELECT rownum rn, a.title, a.author, a.dday, a.categories
-FROM (SELECT idx, title, author, dday, categories
+FROM (SELECT idx, title, author, dday, categories, count(idx) idx
       FROM board
       WHERE categories = :category OR '전체' = :category 
       ORDER BY IDX)a;
+
+DELETE FROM BOARD
+WHERE idx = :idx;
+
+SELECT idx
+FROM BOARD 

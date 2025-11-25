@@ -41,11 +41,11 @@
               <label for="categories">분 류</label>
               <select name="categories" id="categories" required>
                 <option value="total">전체</option>
-                <option value="food">사료 후기</option>
-                <option value="food">행동 성격</option>
-                <option value="protect">입양 보호</option>
-                <option value="ilsang">일상 공유</option>
-                <option value="hoogi">용품 후기</option>
+                <option value="food">사료후기</option>
+                <option value="food">행동/성격</option>
+                <option value="protect">입양/보호</option>
+                <option value="ilsang">일상공유</option>
+                <option value="hoogi">용품후기</option>
               </select>
             </li>
             <li>
@@ -53,9 +53,6 @@
               <select name="variety" id="variety" required>
                 <option value="total">전체</option>
                 <option value="russian">러시안블루</option>
-                <option value="chicken">먼치킨</option>
-                <option value="british">브리티시숏헤어</option>
-                <option value="rackdoll">랙돌</option>
                 <option value="etc">기타</option>
               </select>
             </li>
@@ -142,7 +139,7 @@
     let age = document.querySelector("#age");
     async function success() {
       console.log("successing");
-      let response = await fetch("/write", {
+      let response = await fetch("http://localhost:3000/write", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

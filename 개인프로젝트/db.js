@@ -5,7 +5,7 @@ const oracledb = require("oracledb");
 const dbConfig = {
   user: "wlsghks",
   password: "wlsghks",
-  connectString: "localhost:1521/xe",
+  connectString: "192.168.0.23:1521/xe",
 };
 
 async function getConnection() {

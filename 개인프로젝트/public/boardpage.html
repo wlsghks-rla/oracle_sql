@@ -41,19 +41,19 @@
         </fieldset>
       </form>
       <section>
-        <button type="button"><a href="freeboards.html">돌아가기</a></button>
+        <button type="submit" onclick="backing()">돌아가기</button>
+        <button type="submit" onclick="deleting()">삭제</button>
       </section>
     </div>
   </body>
   <script>
     let boardPart = JSON.parse(localStorage.getItem("boardPart"));
-    console.log(boardPart[0]);
+    console.log(boardPart[0][8]);
 
     // 제목
     function first () {
       let input = document.createElement("input")
       input.value =  boardPart[0][0];
-      console.log(boardPart[0][0])
       input.setAttribute("readonly", true);
       document.querySelector("#title").appendChild(input);
       
@@ -64,7 +64,6 @@
     function second () {
       let input = document.createElement("input")
       input.value =  boardPart[0][1];
-      console.log(boardPart[0][1])
       input.setAttribute("readonly", true);
       document.querySelector("#author").appendChild(input);
       
@@ -83,7 +82,6 @@
           boardPart[0][2] = ddate;
       let input = document.createElement("input")
       input.value =  boardPart[0][2];
-      console.log(boardPart[0][2])
       input.setAttribute("readonly", true);
       document.querySelector("#date").appendChild(input);
       
@@ -94,7 +92,6 @@
     function four () {
       let input = document.createElement("input")
       input.value =  boardPart[0][3];
-      console.log(boardPart[0][3])
       input.setAttribute("readonly", true);
       document.querySelector("#categories").appendChild(input);
       
@@ -105,7 +102,6 @@
     function five () {
       let input = document.createElement("input")
       input.value =  boardPart[0][4];
-      console.log(boardPart[0][4])
       input.setAttribute("readonly", true);
       document.querySelector("#variety").appendChild(input);
       
@@ -116,7 +112,6 @@
     function six () {
       let input = document.createElement("input")
       input.value =  boardPart[0][5];
-      console.log(boardPart[0][5])
       input.setAttribute("readonly", true);
       document.querySelector("#gender").appendChild(input);
       
@@ -127,7 +122,6 @@
     function seven () {
       let input = document.createElement("input")
       input.value =  boardPart[0][6];
-      console.log(boardPart[0][6])
       input.setAttribute("readonly", true);
       document.querySelector("#age").appendChild(input);
       
@@ -138,7 +132,6 @@
     function eight () {
       let textarea = document.createElement("textarea")
       textarea.value =  boardPart[0][7];
-      console.log(boardPart[0][7])
       textarea.setAttribute("readonly", true);
       textarea.setAttribute("cols", "85");
 textarea.setAttribute("rows", "30");
@@ -146,6 +139,33 @@ textarea.setAttribute("rows", "30");
       
     }
     eight();
+
+    // 삭제
+    let indexNum = boardPart[0][8]
+    
+    async function deleting() {
+      console.log(indexNum)
+      
+      let response = await fetch("/boardDelete", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            idx: indexNum,
+          }),
+        });
+        let result = await response.json();
+      if(result =[]){
+       alert("삭제완료");
+       location.href = "freeboards.html";
+      }
+    }
+    
+    // 돌아가기
+    function backing(){
+      console.log(1);
+      location.href = "freeboards.html";
+
+    }
 
 
   </script>

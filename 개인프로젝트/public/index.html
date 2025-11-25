@@ -138,7 +138,7 @@
     // 로그인
     async function log() {
       console.log("docuemnt");
-      let response = await fetch("http://localhost:3000/loging", {
+      let response = await fetch("/loging", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

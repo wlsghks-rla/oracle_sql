@@ -198,6 +198,28 @@ app.post("/write", async (req, res) => {
   }
 });
 
+app.get("/count", async (req, res) => {
+  let connection;
+  try {
+    connection = await db.getConnection();
+    let result = await connection.execute(
+      `SELECT idx
+FROM BOARD`
+    );
+    console.log(result.rows);
+    //res.send("조회완료"); // txt, html....
+    res.json(result.rows); // json 문자열로 응답.
+  } catch (err) {
+    console.log(err);
+    res.send("예외발생");
+  } finally {
+    // 정상실행/ 예외발생
+    if (connection) {
+      await connection.close();
+    }
+  }
+});
+
 // 게시판 목록
 app.get("/paging/:values", async (req, res) => {
   let { values } = req.params;
@@ -235,7 +257,7 @@ app.get("/boardpage/:data", async (req, res) => {
   try {
     connection = await db.getConnection();
     let result = await connection.execute(
-      `SELECT title, author, dday, categories, variety, gender, age, content
+      `SELECT title, author, dday, categories, variety, gender, age, content, idx
        FROM board
       WHERE idx = :idx`,
       [data]
@@ -243,6 +265,32 @@ app.get("/boardpage/:data", async (req, res) => {
     console.log(result.rows);
     //res.send("조회완료"); // txt, html....
     res.json(result.rows); // json 문자열로 응답.
+  } catch (err) {
+    console.log(err);
+    res.send("예외발생");
+  } finally {
+    // 정상실행/ 예외발생
+    if (connection) {
+      await connection.close();
+    }
+  }
+});
+
+// 게시판 삭제
+app.post("/boardDelete", async (req, res) => {
+  let connection;
+  const { idx } = req.body;
+  try {
+    connection = await db.getConnection();
+    let result = await connection.execute(
+      `DELETE FROM BOARD
+       WHERE idx = :idx`,
+      [idx],
+      { autoCommit: true }
+    );
+    console.log(result);
+    //res.send("조회완료"); // txt, html....
+    res.json(result); // json 문자열로 응답.
   } catch (err) {
     console.log(err);
     res.send("예외발생");
@@ -263,7 +311,7 @@ app.get("/paging/:values/:page", async (req, res) => {
     connection = await db.getConnection();
     let result = await connection.execute(
       `SELECT b.*
-       FROM (SELECT rownum rn, a.title, a.author, a.dday, a.categories
+       FROM (SELECT rownum rn, a.title, a.author, a.dday, a.categories,a.idx
              FROM (SELECT idx, title, author, dday, categories
                    FROM board
                    WHERE categories = :category OR '전체' = :category
